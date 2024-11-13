@@ -10,7 +10,6 @@ exports.aliasTopTours = (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    console.log('1', Tour.find(), '2', req.query);
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
       .sort()
@@ -30,7 +29,7 @@ exports.getAllTours = async (req, res) => {
     });
   } catch (err) {
     res.status(404).json({
-      status: 'Failes',
+      status: 'Failed',
       message: err,
     });
   }
