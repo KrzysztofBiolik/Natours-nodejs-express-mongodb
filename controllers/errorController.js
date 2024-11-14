@@ -12,7 +12,18 @@ const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
 
   const message = `Duplicate field value: ${value}. Please use another value!`;
-  return new AppError(message, 400)
+  return new AppError(message, 400);
+};
+
+const handleValidationError = (err) => {
+  // w odpowiedzi na kilka niepoprawnych wartości dostajemy w error obiekt
+  // errors z kilkoma obiektami dotyczącymi różnych błędów
+  // Objact.values służy do iterowania po elementach obiektu
+  // każdy ma message taki jaki przekazaliśmy w message w Schema
+  const errors = Object.values(err.errors).map((el) => el.message);
+
+  const message = `Invalid input data. ${errors.join('. ')}`;
+  return new AppError(message, 400);
 };
 
 const sendErrorDev = (err, res) => {
@@ -54,6 +65,9 @@ module.exports = (err, req, res, next) => {
     }
     if (error.code === 11000) {
       error = handleDuplicateFieldsDB(error);
+    }
+    if (error.name === 'ValidationError') {
+      error = handleValidationError(error);
     }
     sendErrorProd(error, res);
   }
