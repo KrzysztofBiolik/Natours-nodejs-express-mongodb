@@ -6,6 +6,15 @@ const handleCastErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
+const handleDuplicateFieldsDB = (err) => {
+  //errmsg: "E11000 duplicate key error collection... key: {:\"The Forest Hiker\"}"
+  // wyrażenie regularne zwraca tablicę, a nas interesuje 1. element [0]
+  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+
+  const message = `Duplicate field value: ${value}. Please use another value!`;
+  return new AppError(message, 400)
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -42,6 +51,9 @@ module.exports = (err, req, res, next) => {
     let error = err;
     if (error.name === 'CastError') {
       error = handleCastErrorDB(error);
+    }
+    if (error.code === 11000) {
+      error = handleDuplicateFieldsDB(error);
     }
     sendErrorProd(error, res);
   }
