@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 //middleware "tourRouter chcemy używać na takim route"
 
 app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/user', userRouter);
+app.use('/api/v1/users', userRouter);
 
 // all służy do wszystkich metod gttp (get,post...)
 app.all('*', (req, res, next) => {
