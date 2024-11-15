@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8,
+    // trzeba ukryć hasło, aby nie było widoczne przy jakimkolwiek wyszukiwaniu
+    select: false,
   },
   passwordConfirm: {
     type: String,
