@@ -57,6 +57,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next()
+});
+
 userSchema.methods.correctPassword = async function (
   //candidatePassword is not hashed
   candidatePassword,
@@ -86,7 +93,7 @@ userSchema.methods.createPasswordResetToken = function () {
 
   console.log({ resetToken }, this.passwordResetToken);
 
-  this.passwordResetExpired = Date.now() + 2 * 60 * 1000;
+  this.passwordResetExpired = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };
