@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: String,
+  role: {
+    type: String,
+    enum: { values: ['user', 'guide', 'lead-guide', 'admin'] },
+    default: 'user',
+  },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
@@ -33,7 +38,7 @@ const userSchema = new mongoose.Schema({
       message: 'Password are not the same',
     },
   },
-  passwordChangedAt: Date
+  passwordChangedAt: Date,
 });
 
 // document middleware for encryption
