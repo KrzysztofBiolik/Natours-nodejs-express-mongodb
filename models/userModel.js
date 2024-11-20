@@ -42,6 +42,18 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpired: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
+});
+
+// chcemy ten middleware użyć na wszystkich query, które zaczynają się od find
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ active: {$ne: false}});
+  next();
 });
 
 // document middleware for encryption
@@ -61,7 +73,7 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
-  next()
+  next();
 });
 
 userSchema.methods.correctPassword = async function (
