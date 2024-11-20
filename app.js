@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -8,11 +9,20 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// 1) MIDDLEWARES
+// 1) GLOBAL MIDDLEWARES
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+const limiter = rateLimit({
+  // 100 requestów na godzinę
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many request fform this IP, please try again in an hour!',
+});
+// będzie to działać na wszystkie route, które zaczynają się od "/api"
+app.use('/api', limiter);
 
 // expres.json() to middleware, czyli funckja, która może
 // modyfikować przychodzące zapytanie o dane.
