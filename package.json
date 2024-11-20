@@ -21,6 +21,7 @@
     "eslint-plugin-react": "^7.37.2",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.10.0",
     "mongoose": "^5.13.22",
