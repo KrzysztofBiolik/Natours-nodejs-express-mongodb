@@ -64,12 +64,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'This route is not yet finished',
-  });
-};
+// exports.createUser = signUp 
 
 exports.getUser = (req, res) => {
   res.status(500).json({
@@ -78,11 +73,5 @@ exports.getUser = (req, res) => {
   });
 };
 
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'This route is not yet finished',
-  });
-};
-
+exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
