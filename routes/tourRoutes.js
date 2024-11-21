@@ -1,12 +1,17 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
 
 //val to wartość parametru w URL
 
 // router.param('id', tourController.checkID);
+
+// mówimy, że tour router powinien użyć review router
+// za każdym razem gdy napotka coś takiego
+router.use('/:tourId/reviews', reviewRouter);
 
 router
   .route('/top-5-cheap')
