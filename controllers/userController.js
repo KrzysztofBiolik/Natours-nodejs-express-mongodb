@@ -1,6 +1,7 @@
 const User = require('./../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const factory = require('./handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -58,7 +59,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(400).json({
-    status: "success",
+    status: 'success',
     data: null,
   });
 });
@@ -84,9 +85,4 @@ exports.updateUser = (req, res) => {
   });
 };
 
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'This route is not yet finished',
-  });
-};
+exports.deleteUser = factory.deleteOne(User);
