@@ -154,6 +154,14 @@ tourSchema.post(/^find/, function (_, next) {
   next();
 });
 
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChagedAt',
+  });
+  next();
+});
+
 // AGGREGATION MIDDLEWARE
 // ten this odnosi się do obiektu aggregation
 tourSchema.pre('aggregate', function (next) {
