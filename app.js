@@ -24,7 +24,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'script-src': [
+          "'self'",
+          'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+        ],
+        'style-src': [
+          "'self'",
+          'https://*.googleapis.com',
+          'https://unpkg.com',
+        ],
+        'img-src': [
+          "'self'",
+          'data:',
+          'https://*.openstreetmap.org',
+          'https://unpkg.com',
+        ],
+      },
+    },
+  }),
+);
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
