@@ -13,7 +13,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
-
+const cookieParser = require('cookie-parser');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -31,6 +31,7 @@ app.use(
         'script-src': [
           "'self'",
           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js',
         ],
         'style-src': [
           "'self'",
@@ -66,6 +67,7 @@ app.use('/api', limiter);
 // Body parser, reading data from the body into req.body
 // expres.json() to funckja, która może modyfikować przychodzące zapytanie o dane.
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -89,6 +91,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  console.log(req.cookies);
   next();
 });
 
