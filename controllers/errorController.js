@@ -32,40 +32,65 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError('Your login expired. Please log in again!', 401);
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
+const sendErrorDev = (err, req, res) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack,
+    });
+  } else {
+    return res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: err.message,
+    });
+  }
 };
 
 const sendErrorProd = (err, res) => {
-  // Operational, trusted error: send message to client
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-    });
-    // Programming or other unknown error: don't leak error details
+  // API
+  if (req.originalUrl.startsWith('/api')) {
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+      // Programming or other unknown error: don't leak error details
+    } else {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Something went very wrong!',
+      });
+    }
   } else {
-    res.status(500).json({
-      status: 'error',
-      message: 'Somthing went very wrong!',
-    });
+    if (err.isOperational) {
+      return res.status(err.statusCode).render('error', {
+        title: 'Something went wrong!',
+        msg: err.message,
+      });
+      // Programming or other unknown error: don't leak error details
+    } else {
+      return res.status(err.statusCode).render('error', {
+        title: 'Something went wrong!',
+        msg: 'Please try again later',
+      });
+    }
   }
+  // Operational, trusted error: send message to client
 };
 
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
+  console.log(req)
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req,  res);
   } else if (process.env.NODE_ENV === 'production') {
     //let error = {...err} don't work
     let error = err;
+    error.message = error.message;
     if (error.name === 'CastError') {
       error = handleCastErrorDB(error);
     }
@@ -81,6 +106,6 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       error = handleJWTExpiredError();
     }
-    sendErrorProd(error, res);
+    sendErrorProd(error, req, res);
   }
 };
