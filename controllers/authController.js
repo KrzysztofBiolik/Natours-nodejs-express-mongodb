@@ -116,6 +116,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   // GO tO NEXT MIDDLEWARE
   req.user = freshUser;
+  res.locals.user = freshUser;
   next();
 });
 
