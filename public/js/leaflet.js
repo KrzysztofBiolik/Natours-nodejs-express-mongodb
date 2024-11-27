@@ -1,8 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const locationsData = JSON.parse(
-    document.getElementById('map').dataset.locations,
-  );
-
+export const displayMap = (locationsData) => {
   const [longStart, latStart] = locationsData[0].coordinates;
 
   const map = L.map('map', {
@@ -16,20 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  for (i = locationsData.length - 1; i >= 0; i--) {
-    const currLocation = locationsData[i];
-
-    const [long, lat] = currLocation.coordinates;
+  locationsData.forEach((location) => {
+    const [long, lat] = location.coordinates;
 
     const marker = L.marker([lat, long]).addTo(map);
 
     marker
       .bindPopup(
-        `<h1>Arrive on Day ${currLocation.day}</h1><br><h1>Location: ${currLocation.description}.</h1>`,
+        `<h1>Arrive on Day ${location.day}</h1><br><h1>Location: ${location.description}.</h1>`,
         {
           autoClose: false,
         },
       )
       .openPopup();
-  }
-});
+  });
+};

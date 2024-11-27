@@ -33,6 +33,13 @@ app.use(
           'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
           'https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js',
         ],
+        connectSrc: [
+          "'self'",
+          'http://127.0.0.1:3000',
+          'https://api.stripe.com/',
+          'ws://127.0.0.1:63127', // Add this line to allow WebSocket connections
+          'https://*'
+        ],
         'style-src': [
           "'self'",
           'https://*.googleapis.com',
