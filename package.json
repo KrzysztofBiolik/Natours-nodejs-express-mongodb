@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "First backend project",
   "main": "app.js",
+  "targets": {
+    "main": false
+  },
+  "browserslist": "last 2 versions",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production&&nodemon server.js"
+    "start:prod": "SET NODE_ENV=production&&nodemon server.js",
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundle",
+    "build:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundle"
   },
   "author": "Krzysztof Biolik",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "axios": "^1.7.8",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
@@ -32,6 +39,7 @@
     "mongoose": "^5.13.22",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.16",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^3.3.3",
     "pug": "^3.0.3",
     "slugify": "^1.6.6",
