@@ -174,7 +174,6 @@ tourSchema.pre(/^find/, function (next) {
   });
   next();
 });
-
 // // AGGREGATION MIDDLEWARE
 // // ten this odnosi się do obiektu aggregation
 // tourSchema.pre('aggregate', function (next) {

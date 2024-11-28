@@ -37,8 +37,9 @@ app.use(
           "'self'",
           'http://127.0.0.1:3000',
           'https://api.stripe.com/',
-          'ws://127.0.0.1:63127', // Add this line to allow WebSocket connections
-          'https://*'
+          'ws://127.0.0.1:51198', // Add this line to allow WebSocket connections
+          'https://*',
+          'https://bundle.js:*',
         ],
         'style-src': [
           "'self'",
@@ -74,6 +75,7 @@ app.use('/api', limiter);
 // Body parser, reading data from the body into req.body
 // expres.json() to funckja, która może modyfikować przychodzące zapytanie o dane.
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
