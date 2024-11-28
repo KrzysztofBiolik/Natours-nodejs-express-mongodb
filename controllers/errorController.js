@@ -48,7 +48,7 @@ const sendErrorDev = (err, req, res) => {
   }
 };
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err, req,  res) => {
   // API
   if (req.originalUrl.startsWith('/api')) {
     if (err.isOperational) {

@@ -30,7 +30,13 @@ export const logout = async () => {
       url: 'http://127.0.0.1:3000/api/v1/users/logout',
     });
     // true jest potrzebne, aby przeładowanie nie było z cache tylko z serweru.
-    if (res.data.status === 'success') location.reload(true);
+    if (res.data.status === 'success') {
+      if (location.pathname === '/me') {
+        location.assign('/');
+      } else {
+        location.reload(true);
+      }
+    }
   } catch (err) {
     showAlert('error', 'Error logging out! Try again.');
   }
