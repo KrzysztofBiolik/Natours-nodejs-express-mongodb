@@ -50,7 +50,7 @@ reviewSchema.pre(/^find/, function (next) {
 
 // word "this" refers to the current Model
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
-  console.log('THIS2', this);
+
   const stats = await this.aggregate([
     {
       $match: { tour: tourId },
@@ -63,7 +63,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
       },
     },
   ]);
-  console.log(stats);
+  
 
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
@@ -82,14 +82,10 @@ reviewSchema.post('save', function () {
   // this points to current review
   // conscructor is a Model who created the document
   this.constructor.calcAverageRatings(this.tour);
-  console.log('THIS1', this);
-  console.log('constructor', this.constructor);
 });
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.review = await this.findOne();
-  console.log('THIS', this);
-  console.log('REVIEW', this.review);
   next();
 });
 
