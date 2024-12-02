@@ -15,7 +15,10 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: 'default.jpg',
+  },
   role: {
     type: String,
     enum: { values: ['user', 'guide', 'lead-guide', 'admin'] },
@@ -52,7 +55,7 @@ const userSchema = new mongoose.Schema({
 // chcemy ten middleware użyć na wszystkich query, które zaczynają się od find
 userSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: {$ne: false}});
+  this.find({ active: { $ne: false } });
   next();
 });
 
