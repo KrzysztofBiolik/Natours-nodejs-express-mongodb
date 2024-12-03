@@ -12,8 +12,15 @@ module.exports = class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      // Sendgrid
-      return 1;
+      // BrevoF
+      return nodemailer.createTransport({
+        host: process.env.BREVO_HOST,
+        port: process.env.BREVO_PORT,
+        auth: {
+          user: process.env.BREVO_LOGIN,
+          pass: process.env.BREVO_PASSWORD,
+        },
+      });
     }
 
     return nodemailer.createTransport({
@@ -35,7 +42,7 @@ module.exports = class Email {
     });
     // 2) Define email options
     const mailOptions = {
-      from: this.from,
+      from: 'bioliq01@gmail.com',
       to: this.to,
       subject,
       html: html,
