@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const compression = require('compression');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -36,7 +37,7 @@ app.use(
         ],
         connectSrc: [
           "'self'",
-          'http://127.0.0.1:3000',
+          'http://127.0.0.1:10000',
           'https://api.stripe.com/',
           'ws://127.0.0.1:57524', // Add this line to allow WebSocket connections
           'https://*',
@@ -97,6 +98,8 @@ app.use(
     ],
   }),
 );
+
+app.use(compression);
 
 // Test middleware
 app.use((req, res, next) => {
