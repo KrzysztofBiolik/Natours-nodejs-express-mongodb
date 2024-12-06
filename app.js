@@ -37,7 +37,7 @@ app.use(
         ],
         connectSrc: [
           "'self'",
-          'http://127.0.0.1:3000',
+          'http://127.0.0.1:10000',
           'https://api.stripe.com/',
           'ws://127.0.0.1:57524', // Add this line to allow WebSocket connections
           'https://*',
