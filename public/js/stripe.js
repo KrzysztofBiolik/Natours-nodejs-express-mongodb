@@ -3,9 +3,11 @@ import { showAlert } from './alerts';
 
 export const bookTour = async (tourId) => {
   try {
+    console.log(tourId)
     // You don't even need next line
     // const stripe = Stripe(settings.stripePublicKey);
     const res = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
+    console.log(res.data.session.id)
 
     if (res.status === 200) location.assign(res.data.session.url);
   } catch (err) {
