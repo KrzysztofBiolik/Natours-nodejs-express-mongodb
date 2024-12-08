@@ -15,6 +15,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -78,6 +79,12 @@ const limiter = rateLimit({
 });
 // będzie to działać na wszystkie route, które zaczynają się od "/api"
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout,
+);
 
 // Body parser, reading data from the body into req.body
 // expres.json() to funckja, która może modyfikować przychodzące zapytanie o dane.
