@@ -4,7 +4,7 @@
 
 ## Demo
 
-[Natours app link](https://natours-nodejs-express-mongodb.onrender.com/)
+[Natours app link](https://natours-nodejs-express-mongodb.onrender.com)
 
 You can see in short how the to-do list works in the gif below.
 
