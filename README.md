@@ -8,7 +8,8 @@
 
 You can see in short how the to-do list works in the gif below.
 
-![Gif](https://github.com/KrzysztofBiolikNatours-nodejs-express-mongodb/blob/main/public/images/Natours%20app%20.gif?raw=true)
+
+![Gif](https://github.com/KrzysztofBiolik/Natours-nodejs-express-mongodb/blob/main/public/img/Natours%20app.gif?raw=true)
 
 ## How to use Natours app
 
